@@ -151,7 +151,32 @@ $figuras = [
 
 <div class="container">
     <h1>🎨 Sistema de Figuras Geométricas</h1>
-    
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+        Aprende sobre figuras geométricas con ejemplos interactivos
+    </p>
+</div>
+
+<!-- Sección de Ejemplos/Guía -->
+<div style="text-align: center; margin: 40px 0 20px 0;">
+    <h2 style="color: var(--burgundy); font-size: 2em;">📚 Ejemplos y Guía</h2>
+    <p style="color: #666; max-width: 800px; margin: 10px auto;">
+        Observa estas figuras de ejemplo para entender cómo funcionan las áreas y perímetros
+    </p>
+</div>
+
+<div class="contenedor">
+    <?php
+    // Mostrar cada figura en una tarjeta
+    foreach ($figuras as $figura) {
+        echo "<div class='tarjeta'>";
+        $figura->dibujar();
+        $figura->mostrarInfo();
+        echo "</div>";
+    }
+    ?>
+</div>
+
+<div class="container" style="margin-top: 50px;">
     <!-- Formulario Interactivo -->
     <div class="panel">
         <h2 style="color: var(--burgundy); margin-bottom: 20px;">Crear Nueva Figura</h2>
@@ -214,38 +239,13 @@ $figuras = [
     </div>
 </div>
 
-<div class="contenedor">
-    <?php
-    // Mostrar cada figura en una tarjeta
-    foreach ($figuras as $figura) {
-        echo "<div class='tarjeta'>";
-        $figura->dibujar();
-        $figura->mostrarInfo();
-        echo "</div>";
-    }
-    ?>
-</div>
-
-<div class="resumen">
-    <h2>📊 Resumen de Áreas</h2>
-    <?php
-    $areaTotal = 0;
-    foreach ($figuras as $indice => $figura) {
-        $area = $figura->calcularArea();
-        $areaTotal += $area;
-        $tipo = get_class($figura);
-        
-        echo "<div class='resumen-item'>";
-        echo "<strong>{$tipo}:</strong>";
-        echo "<span>" . number_format($area, 2) . " u²</span>";
-        echo "</div>";
-    }
-    
-    echo "<div class='resumen-item' style='background: var(--burgundy); color: white; font-weight: bold;'>";
-    echo "<strong>TOTAL:</strong>";
-    echo "<span>" . number_format($areaTotal, 2) . " u²</span>";
-    echo "</div>";
-    ?>
+<div class="resumen" style="margin-top: 50px;">
+    <h2>📊 Resumen de Tus Figuras Creadas</h2>
+    <div id="listaResumen">
+        <p style="color: #666; text-align: center; padding: 20px;">
+            Aún no has creado ninguna figura. Usa el formulario arriba para comenzar.
+        </p>
+    </div>
 </div>
 
 <footer>
@@ -254,6 +254,9 @@ $figuras = [
 </footer>
 
 <script>
+// Array para almacenar las figuras creadas por el usuario
+let figurasCreadas = [];
+
 function mostrarCampos() {
     const tipo = document.getElementById('tipoFigura').value;
     
@@ -270,6 +273,41 @@ function mostrarCampos() {
     }
 }
 
+function actualizarResumen() {
+    const listaResumen = document.getElementById('listaResumen');
+    
+    if (figurasCreadas.length === 0) {
+        listaResumen.innerHTML = `
+            <p style="color: #666; text-align: center; padding: 20px;">
+                Aún no has creado ninguna figura. Usa el formulario arriba para comenzar.
+            </p>
+        `;
+        return;
+    }
+    
+    let html = '';
+    let areaTotal = 0;
+    
+    figurasCreadas.forEach((figura, index) => {
+        areaTotal += figura.area;
+        html += `
+            <div class="resumen-item">
+                <strong>${figura.tipo} ${index + 1}:</strong>
+                <span>${figura.area.toFixed(2)} u²</span>
+            </div>
+        `;
+    });
+    
+    html += `
+        <div class="resumen-item" style="background: var(--burgundy); color: white; font-weight: bold;">
+            <strong>TOTAL:</strong>
+            <span>${areaTotal.toFixed(2)} u²</span>
+        </div>
+    `;
+    
+    listaResumen.innerHTML = html;
+}
+
 function crearFigura() {
     const tipo = document.getElementById('tipoFigura').value;
     const color = document.getElementById('color').value;
@@ -279,28 +317,35 @@ function crearFigura() {
         return;
     }
     
-    let area, perimetro, visual;
+    let area, perimetro, visual, tipoNombre;
     
     if (tipo === 'rectangulo') {
         const base = parseFloat(document.getElementById('base').value);
         const altura = parseFloat(document.getElementById('altura').value);
         
-        if (!base || !altura) {
-            alert('Por favor completa todos los campos');
+        if (!base || !altura || base <= 0 || altura <= 0) {
+            alert('Por favor ingresa valores válidos para base y altura');
             return;
         }
         
         area = base * altura;
         perimetro = 2 * (base + altura);
         visual = `<div style="width: ${base * 30}px; height: ${altura * 30}px; background: ${color}; border-radius: 10px; box-shadow: 0 8px 20px rgba(128, 0, 32, 0.3);"></div>`;
+        tipoNombre = 'Rectángulo';
         
     } else if (tipo === 'triangulo') {
         const l1 = parseFloat(document.getElementById('lado1').value);
         const l2 = parseFloat(document.getElementById('lado2').value);
         const l3 = parseFloat(document.getElementById('lado3').value);
         
-        if (!l1 || !l2 || !l3) {
-            alert('Por favor completa todos los campos');
+        if (!l1 || !l2 || !l3 || l1 <= 0 || l2 <= 0 || l3 <= 0) {
+            alert('Por favor ingresa valores válidos para los tres lados');
+            return;
+        }
+        
+        // Validar que sea un triángulo válido
+        if (l1 + l2 <= l3 || l1 + l3 <= l2 || l2 + l3 <= l1) {
+            alert('Los valores no forman un triángulo válido. La suma de dos lados debe ser mayor al tercer lado.');
             return;
         }
         
@@ -308,25 +353,39 @@ function crearFigura() {
         const s = perimetro / 2;
         area = Math.sqrt(s * (s - l1) * (s - l2) * (s - l3));
         visual = `<div style="width: 0; height: 0; border-left: ${l1 * 20}px solid transparent; border-right: ${l2 * 20}px solid transparent; border-bottom: ${l3 * 20}px solid ${color}; filter: drop-shadow(0 8px 20px rgba(128, 0, 32, 0.3));"></div>`;
+        tipoNombre = 'Triángulo';
         
     } else if (tipo === 'circulo') {
         const radio = parseFloat(document.getElementById('radio').value);
         
-        if (!radio) {
-            alert('Por favor completa todos los campos');
+        if (!radio || radio <= 0) {
+            alert('Por favor ingresa un valor válido para el radio');
             return;
         }
         
         area = Math.PI * radio * radio;
         perimetro = 2 * Math.PI * radio;
         visual = `<div style="width: ${radio * 40}px; height: ${radio * 40}px; background: ${color}; border-radius: 50%; box-shadow: 0 8px 20px rgba(128, 0, 32, 0.3);"></div>`;
+        tipoNombre = 'Círculo';
     }
     
+    // Agregar la figura al array
+    figurasCreadas.push({
+        tipo: tipoNombre,
+        area: area,
+        perimetro: perimetro,
+        color: color
+    });
+    
+    // Actualizar el resumen dinámico
+    actualizarResumen();
+    
+    // Mostrar la figura creada
     document.getElementById('figuraVisual').innerHTML = visual;
     document.getElementById('infoFigura').innerHTML = `
         <div class="info-item">
         <strong>Tipo:</strong>
-        <span>${tipo.charAt(0).toUpperCase() + tipo.slice(1)}</span>
+        <span>${tipoNombre}</span>
         </div>
         <div class="info-item">
         <strong>Color:</strong>
