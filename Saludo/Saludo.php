@@ -212,15 +212,15 @@ class Aleman extends Idioma {
 
 <div class="container">
     <h1>🌍 Sistema de Conversación Multi-Idioma</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+    <p style="text-align: center; color: rgba(255, 248, 220, 0.98); margin-bottom: 30px;">
         Selecciona un idioma y aprende a mantener conversaciones básicas
     </p>
 </div>
 
 <!-- PASO 1: Selección de Idioma -->
-<div id="seccionSeleccion" class="container">
+<div id="seccionSeleccion" class="container" style= "color: rgba(255, 248, 220, 0.98)">
     <div class="panel" style="max-width: 600px; margin: 0 auto;">
-        <h2 style="color: var(--burgundy); margin-bottom: 20px; text-align: center;">
+        <h2 style="color: rgba(255, 248, 220, 0.98); margin-bottom: 20px; text-align: center;">
             🎯 Paso 1: Selecciona tu Idioma
         </h2>
         
@@ -247,10 +247,10 @@ class Aleman extends Idioma {
 <!-- PASO 2: Ejemplo de Conversación (Oculto inicialmente) -->
 <div id="seccionEjemplo" style="display: none;">
     <div style="text-align: center; margin: 40px 0 20px 0;">
-        <h2 style="color: var(--burgundy); font-size: 2em;">
+        <h2 style= "font-size: 2em;  color: rgba(255, 248, 220, 0.98)">
             <span id="banderaEjemplo"></span> Ejemplo de Conversación
         </h2>
-        <p style="color: #666; max-width: 800px; margin: 10px auto;">
+        <p style="max-width: 800px; margin: 10px auto;  color: rgba(255, 248, 220, 0.98)">
             Observa cómo se desarrolla una conversación completa en <strong id="nombreIdiomaEjemplo"></strong>
         </p>
     </div>
@@ -268,17 +268,17 @@ class Aleman extends Idioma {
 <div id="seccionConversacion" style="display: none;">
     <div class="container" style="margin-top: 50px;">
         <div style="text-align: center; margin-bottom: 20px;">
-            <h2 style="color: var(--burgundy); font-size: 2em;">
+            <h2 style="font-size: 2em; color: rgba(255, 248, 220, 0.98)">
                 💬 Tu Conversación Interactiva
             </h2>
-            <p style="color: #666;">
+            <p>
                 Practica enviando mensajes usando los botones de abajo
             </p>
         </div>
 
-        <div class="panel" style="max-width: 900px; margin: 0 auto;">
+        <div class="panel" style="max-width: 900px; margin: 0 auto;)">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: var(--burgundy); margin: 0;">
+                <h3 style="margin: 0; color: rgba(255, 248, 220, 0.98)">
                     <span id="banderaActiva"></span> Conversación: <span id="nombreUsuarioActivo"></span>
                 </h3>
                 <button onclick="limpiarConversacion()" style="padding: 8px 15px; font-size: 0.9em;">
@@ -422,7 +422,7 @@ function mostrarEjemplo() {
     const ejemploHTML = `
         <div class="mensaje-persona1">
             <strong>👤 Persona A:</strong>
-            <p>${idiomaActual.mensajes.saludo('Juan')}</p>
+            <p>${idiomaActual.mensajes.saludo(nombreActual)}</p>
         </div>
         
         <div class="mensaje-persona2">
@@ -452,12 +452,13 @@ function mostrarEjemplo() {
         
         <div class="mensaje-persona1">
             <strong>👤 Persona A:</strong>
-            <p>${idiomaActual.mensajes.despedida('Juan')}</p>
+            <p>${idiomaActual.mensajes.despedida(nombreActual)}</p>
         </div>
     `;
     
     document.getElementById('conversacionEjemplo').innerHTML = ejemploHTML;
 }
+
 
 function enviarMensaje(tipo) {
     if (!idiomaActual) return;

@@ -151,15 +151,15 @@ $figuras = [
 
 <div class="container">
     <h1>🎨 Sistema de Figuras Geométricas</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+    <p style="text-align: center; color: rgba(255, 248, 220, 0.98); margin-bottom: 30px;">
         Aprende sobre figuras geométricas con ejemplos interactivos
     </p>
 </div>
 
 <!-- Sección de Ejemplos/Guía -->
-<div style="text-align: center; margin: 40px 0 20px 0;">
-    <h2 style="color: var(--burgundy); font-size: 2em;">📚 Ejemplos y Guía</h2>
-    <p style="color: #666; max-width: 800px; margin: 10px auto;">
+<div style="text-align: center; margin: 40px 0 20px 0;color: rgba(255, 248, 220, 0.98)">
+    <h2 style=" font-size: 2em;">📚 Ejemplos y Guía</h2>
+    <p style="max-width: 800px; margin: 10px auto;">
         Observa estas figuras de ejemplo para entender cómo funcionan las áreas y perímetros
     </p>
 </div>
