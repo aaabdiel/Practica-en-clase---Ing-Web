@@ -139,3 +139,35 @@ foreach ($figuras as $figura) {
 echo "Área total de todas las figuras: " . number_format($areaTotal, 2) . "\n";
 
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Figuras Geométricas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🎨 Sistema de Figuras Geométricas</h1>
+
+<div class="contenedor">
+<?php
+$figuras = [
+    new Rectangulo("tomato", 5, 3),
+    new Triangulo("dodgerblue", 3, 4, 5),
+    new Circulo("limegreen", 4)
+];
+
+foreach ($figuras as $figura) {
+    echo "<div class='tarjeta'>";
+    $figura->dibujar();
+    $figura->mostrarInfo();
+    echo "</div>";
+}
+?>
+</div>
+
+<footer>Desarrollado en PHP con Programación Orientada a Objetos 💻</footer>
+</body>
+</html>

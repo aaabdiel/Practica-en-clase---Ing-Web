@@ -179,3 +179,61 @@ echo "Nuevo usuario: " . $idioma->getNombreUsuario() . "\n";
 $idioma->saludar();
 
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Saludos Multi-Idioma</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🌍 Sistema de Saludos Multi-Idioma</h1>
+
+<div class="contenedor">
+<div class="tarjeta">
+<?php
+$nombre = "Juan";
+$opcion = 1; // 1=Español, 2=Inglés, 3=Francés
+switch ($opcion) {
+    case 1: $idioma = new Espanol($nombre); break;
+    case 2: $idioma = new Ingles($nombre); break;
+    case 3: $idioma = new Frances($nombre); break;
+    default: $idioma = new Espanol($nombre);
+}
+
+$idioma->presentacion();
+$idioma->saludar();
+
+if ($idioma instanceof Espanol || $idioma instanceof Ingles) {
+    $idioma->saludoFormal();
+    $idioma->preguntarEstado();
+} elseif ($idioma instanceof Frances) {
+    $idioma->saludoFormal();
+}
+
+$idioma->despedir();
+
+echo "<hr><h3>Demostración de Polimorfismo</h3>";
+
+$idiomas = [
+    new Espanol($nombre),
+    new Ingles($nombre),
+    new Frances($nombre)
+];
+
+foreach ($idiomas as $i) {
+    echo "<div class='idioma-demo'>";
+    echo "<h4>" . $i->getNombreIdioma() . "</h4>";
+    $i->saludar();
+    $i->despedir();
+    echo "</div>";
+}
+?>
+</div>
+</div>
+
+<footer>Ejemplo educativo de POO en PHP 🌐</footer>
+</body>
+</html>
